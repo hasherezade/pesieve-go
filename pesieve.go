@@ -191,7 +191,7 @@ func PESieveScan(pp PEsieveParams) PEsieveReport {
 }
 
 //Extended PEsieve scan
-func PESieveScanEx(pp PEsieveParams, rtype t_report_type, jsonMaxSize uint32) (PEsieveReport, string, uint32){
+func PESieveScanEx(pp PEsieveParams, rtype t_report_type, jsonMaxSize uint32) (PEsieveReport, string, uint32) {
 	// Perform the scan:
 	pr := PEsieveReport{}
 	jsonBuf := make([]byte, jsonMaxSize)
