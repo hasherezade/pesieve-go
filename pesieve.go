@@ -131,41 +131,41 @@ type PARAM_STRING struct {
 
 type t_params struct {
 	Pid              uint32          ///< the PID of the process to be scanned
-	DotnetPolicy    t_dotnet_policy ///< policy for scanning .NET modules
-	ImprecMode      t_imprec_mode   ///< import recovery mode
+	DotnetPolicy     t_dotnet_policy ///< policy for scanning .NET modules
+	ImprecMode       t_imprec_mode   ///< import recovery mode
 	Quiet            bool            ///<do not print log on the stdout
 	Out_filter       t_output_filter ///< level of details of the created output material
-	NoHooks         bool            ///< don't scan for hooks
+	NoHooks          bool            ///< don't scan for hooks
 	Shellcode        bool            ///< detect shellcode implants
 	Threads          bool            ///< scan threads
 	IAT              t_iat_scan_mode ///< detect IAT hooking
 	Data             t_data_scan_mode///< should scan non-executable pages?
 	Minidump         bool            ///< make minidump of full process
-	DumpMode        t_dump_mode     ///< in which mode the detected PE implants should be dumped
-	JsonOutput      bool            ///< display the final summary as the JSON report
-	MakeReflection  bool            ///< operate on a process reflection rather than on the live process (this allows i.e. to force-read inaccessible pages)
-	UseCache        bool            ///< enable cache for the scanned modules
-	JsonLvl         t_json_level    ///< level of the details of the JSON report
-	OutputDir       [MAX_PATH + 1]byte ///< the root directory where the output should be saved (default: current directory)
-	ModulesIgnored  PARAM_STRING    ///< a list of modules that will not be scanned, separated by PARAM_LIST_SEPARATOR
+	DumpMode         t_dump_mode     ///< in which mode the detected PE implants should be dumped
+	JsonOutput       bool            ///< display the final summary as the JSON report
+	MakeReflection   bool            ///< operate on a process reflection rather than on the live process (this allows i.e. to force-read inaccessible pages)
+	UseCache         bool            ///< enable cache for the scanned modules
+	JsonLvl          t_json_level    ///< level of the details of the JSON report
+	OutputDir        [MAX_PATH + 1]byte ///< the root directory where the output should be saved (default: current directory)
+	ModulesIgnored   PARAM_STRING    ///< a list of modules that will not be scanned, separated by PARAM_LIST_SEPARATOR
 }
 type PEsieveParams t_params
 
 type t_report struct {
 	Pid              uint32        ///< pid of the process that was scanned
-	IsManaged       bool          ///< is process managed (.NET)
-	Is64bit         bool          ///< is process 64 bit
-	IsReflection    bool          ///< was the scan performed on process reflection
+	IsManaged        bool          ///< is process managed (.NET)
+	Is64bit          bool          ///< is process 64 bit
+	IsReflection     bool          ///< was the scan performed on process reflection
 	Scanned          uint32        ///< number of all scanned modules
 	Suspicious       uint32        ///< general summary of suspicious
 	Replaced         uint32        ///< PE file replaced in memory (probably hollowed)
-	HdrMod          uint32        ///< PE header is modified (but not replaced)
-	UnreachableFile uint32        ///< cannot read the file corresponding to the module in memory
+	HdrMod           uint32        ///< PE header is modified (but not replaced)
+	UnreachableFile  uint32        ///< cannot read the file corresponding to the module in memory
 	Patched          uint32        ///< detected modifications in the code
-	IATHooked       uint32        ///< detected IAT hooks
+	IATHooked        uint32        ///< detected IAT hooks
 	Implanted        uint32        ///< all implants: shellcodes + PEs
-	ImplantedPe     uint32        ///< the full PE was probably loaded manually
-	ImplantedShc    uint32        ///< implanted shellcodes
+	ImplantedPe      uint32        ///< the full PE was probably loaded manually
+	ImplantedShc     uint32        ///< implanted shellcodes
 	Other            uint32        ///< other indicators
 	Skipped          uint32        ///< some of the modules must be skipped (i.e. dotNET managed code have different characteristics and this scan does not apply)
 	Errors           uint32        ///< the number of elements that could not be scanned because of errors. If errors == ERROR_SCAN_FAILURE, no scan was performed.
