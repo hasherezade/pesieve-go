@@ -35,7 +35,7 @@ func init() {
 	_peSieveHelp = peSieveDll.NewProc("PESieve_help")
 	_peSieveScan = peSieveDll.NewProc("PESieve_scan")
 	_peSieveScanEx = peSieveDll.NewProc("PESieve_scan_ex")
-	PESieveVersion := *(*uint32)(unsafe.Pointer(dll.NewProc("PESieve_version").Addr()))
+	PESieveVersion = *(*uint32)(unsafe.Pointer(peSieveDll.NewProc("PESieve_version").Addr()))
 }
 
 const (
