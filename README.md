@@ -1,5 +1,7 @@
 # pesieve-go
-Golang bindings for [PE-sieve](https://github.com/hasherezade/pe-sieve/)
+Golang bindings for [PE-sieve](https://github.com/hasherezade/pe-sieve/).
+
+Requires pe-sieve32.dll, pe-sieve64.dll (of a supported version) to be present in the project directory, or in a path pointed by the environment variable: `PESIEVE_DIR`.
 
 ## API
 
