@@ -47,8 +47,8 @@ func init() {
 	_peSieveScan = peSieveDll.NewProc("PESieve_scan")
 	_peSieveScanEx = peSieveDll.NewProc("PESieve_scan_ex")
 	PESieveVersion = *(*uint32)(unsafe.Pointer(peSieveDll.NewProc("PESieve_version").Addr()))
-	if PESieve_version < PESieveMinVer || PESieve_version > PESieveMaxVer {
-		exceptionMsg := fmt.Sprintf("Version mismatch: the PE-sieve.dll version (%s) doesn't match the bindings version", versionToStr(PESieve_version))
+	if PESieveVersion < PESieveMinVer || PESieveVersion > PESieveMaxVer {
+		exceptionMsg := fmt.Sprintf("Version mismatch: the PE-sieve.dll version (%s) doesn't match the bindings version", versionToStr(PESieveVersion))
 		panic(exceptionMsg)
 	}
 }
