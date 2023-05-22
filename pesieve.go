@@ -2,6 +2,7 @@ package pesieve
 
 import (
 	"fmt"
+	"strconv"
 	"syscall"
 	"unsafe"
 	"os"
@@ -9,6 +10,8 @@ import (
 
 const (
 	is64Bit = uint64(^uintptr(0)) == ^uint64(0)
+	PESieveMinVer = 0x030600 // minimal version of the PE-sieve DLL to work with this wrapper
+	PESieveMaxVer = 0x030600 // maximal version of the PE-sieve DLL to work with this wrapper
 )
 
 var(
@@ -20,6 +23,14 @@ var(
 	_peSieveScan *syscall.LazyProc
 	_peSieveScanEx *syscall.LazyProc
 )
+
+func versionToStr(versionVal uint32) string {
+	major := (versionVal >> 24) & 0xFF
+	minor := (versionVal >> 16) & 0xFF
+	patch := (versionVal >> 8) & 0xFF
+	build := versionVal & 0xFF
+	return strconv.Itoa(int(major)) + "." + strconv.Itoa(int(minor)) + "." + strconv.Itoa(int(patch)) + "." + strconv.Itoa(int(build))
+}
 
 func init() {
 	if is64Bit {
@@ -36,6 +47,10 @@ func init() {
 	_peSieveScan = peSieveDll.NewProc("PESieve_scan")
 	_peSieveScanEx = peSieveDll.NewProc("PESieve_scan_ex")
 	PESieveVersion = *(*uint32)(unsafe.Pointer(peSieveDll.NewProc("PESieve_version").Addr()))
+	if PESieve_version < PESieveMinVer || PESieve_version > PESieveMaxVer {
+		exceptionMsg := fmt.Sprintf("Version mismatch: the PE-sieve.dll version (%s) doesn't match the bindings version", versionToStr(PESieve_version))
+		panic(exceptionMsg)
+	}
 }
 
 const (
