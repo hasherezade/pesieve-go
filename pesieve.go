@@ -10,8 +10,8 @@ import (
 
 const (
 	is64Bit = uint64(^uintptr(0)) == ^uint64(0)
-	PESieveMinVer = 0x030600 // minimal version of the PE-sieve DLL to work with this wrapper
-	PESieveMaxVer = 0x030600 // maximal version of the PE-sieve DLL to work with this wrapper
+	PESieveMinVer = 0x030800 // minimal version of the PE-sieve DLL to work with this wrapper
+	PESieveMaxVer = 0x030800 // maximal version of the PE-sieve DLL to work with this wrapper
 )
 
 var(
@@ -99,6 +99,27 @@ const (
 	PE_IATS_MODES_COUNT                     = 4
 )
 
+type t_shellc_mode uint32
+
+const (
+	SHELLC_NONE            t_shellc_mode = 0 ///< do not detect shellcode
+	SHELLC_PATTERNS                      = 1 ///< detect shellcodes by patterns
+	SHELLC_STATS                         = 2 ///< detect shellcodes by stats
+	SHELLC_PATTERNS_OR_STATS             = 3 ///< detect shellcodes by patterns or stats (any match)
+	SHELLC_PATTERNS_AND_STATS            = 4 ///< detect shellcodes by patterns and stats (both match)
+	SHELLC_COUNT                         = 5
+)
+
+type t_obfusc_mode uint32
+
+const (
+	OBFUSC_NONE            t_obfusc_mode = 0 ///< do not detect obfuscated contents
+	OBFUSC_STRONG_ENC                    = 1 ///< detect areas possibly encrypted with strong encryption
+	OBFUSC_WEAK_ENC                      = 2 ///< detect areas possibly encrypted with weak encryption (lower entropy, possible XOR patterns)
+	OBFUSC_ANY                           = 3 ///< detect both: possible strong or weak encryption
+	OBFUSC_COUNT                         = 4
+)
+
 type t_dotnet_policy uint32
 
 const (
@@ -152,7 +173,8 @@ type t_params struct {
 	Quiet            bool            ///<do not print log on the stdout
 	Out_filter       t_output_filter ///< level of details of the created output material
 	NoHooks          bool            ///< don't scan for hooks
-	Shellcode        bool            ///< detect shellcode implants
+	Shellcode        t_shellc_mode   ///< detect shellcode implants
+	Obfuscated       t_obfusc_mode   ///< detect encrypted or obfuscated content (possible encrypted shellcodes)
 	Threads          bool            ///< scan threads
 	IAT              t_iat_scan_mode ///< detect IAT hooking
 	Data             t_data_scan_mode///< should scan non-executable pages?

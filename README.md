@@ -36,7 +36,7 @@ func ScanThis(myPid uint32) string {
 	pp := pesieve.PEsieveParams{
 		Pid:      myPid,
 		Threads:  true,
-		Shellcode: true,
+		Shellcode: pesieve.SHELLC_PATTERNS,
 		Quiet:    true,
 		JsonLvl: pesieve.JSON_DETAILS2,
 		ModulesIgnored : pesieve.PARAM_STRING { Buffer: ignoredBuf, Length: uint32(len(mods)) },
